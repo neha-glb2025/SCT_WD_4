@@ -1,0 +1,444 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>TaskFlow - To-Do App</title>
+
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <div class="app">
+
+    
+        <header class="header">
+
+            <div>
+                <h1>TaskFlow</h1>
+                <p>Organize your day. Get things done.</p>
+            </div>
+
+            <button id="themeBtn" class="theme-btn" title="Toggle theme">
+                🌙
+            </button>
+
+        </header>
+
+
+        
+
+        <section class="add-card">
+
+            <div class="card-title">
+                <h2>Add a New Task</h2>
+                <p>Create a task and keep track of your work.</p>
+            </div>
+
+
+            <div class="form-grid">
+
+                <div class="input-box task-input-box">
+
+                    <label for="taskInput">
+                        Task
+                    </label>
+
+                    <input
+                        type="text"
+                        id="taskInput"
+                        placeholder="What needs to be done?"
+                        maxlength="100"
+                    >
+
+                </div>
+
+
+                <div class="input-box">
+
+                    <label for="taskDate">
+                        Date
+                    </label>
+
+                    <input
+                        type="date"
+                        id="taskDate"
+                    >
+
+                </div>
+
+
+                <div class="input-box">
+
+                    <label for="taskTime">
+                        Time
+                    </label>
+
+                    <input
+                        type="time"
+                        id="taskTime"
+                    >
+
+                </div>
+
+
+                <div class="input-box">
+
+                    <label for="taskPriority">
+                        Priority
+                    </label>
+
+                    <select id="taskPriority">
+
+                        <option value="low">
+                            Low
+                        </option>
+
+                        <option value="medium" selected>
+                            Medium
+                        </option>
+
+                        <option value="high">
+                            High
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+                <div class="input-box">
+
+                    <label for="taskCategory">
+                        Category
+                    </label>
+
+                    <select id="taskCategory">
+
+                        <option value="Study">
+                            📚 Study
+                        </option>
+
+                        <option value="Work">
+                            💼 Work
+                        </option>
+
+                        <option value="Personal">
+                            👤 Personal
+                        </option>
+
+                        <option value="Other">
+                            📌 Other
+                        </option>
+
+                    </select>
+
+                </div>
+
+            </div>
+
+
+            <button id="addTaskBtn" class="add-btn">
+                + Add Task
+            </button>
+
+        </section>
+
+
+        
+
+        <section class="stats">
+
+            <div class="stat-card">
+
+                <div class="stat-icon total">
+                    📋
+                </div>
+
+                <div>
+                    <span>Total</span>
+                    <strong id="totalCount">0</strong>
+                </div>
+
+            </div>
+
+
+            <div class="stat-card">
+
+                <div class="stat-icon pending">
+                    ⏳
+                </div>
+
+                <div>
+                    <span>Pending</span>
+                    <strong id="pendingCount">0</strong>
+                </div>
+
+            </div>
+
+
+            <div class="stat-card">
+
+                <div class="stat-icon completed">
+                    ✓
+                </div>
+
+                <div>
+                    <span>Completed</span>
+                    <strong id="completedCount">0</strong>
+                </div>
+
+            </div>
+
+
+            <div class="stat-card">
+
+                <div class="stat-icon overdue">
+                    !
+                </div>
+
+                <div>
+                    <span>Overdue</span>
+                    <strong id="overdueCount">0</strong>
+                </div>
+
+            </div>
+
+        </section>
+
+
+    
+
+        <section class="task-section">
+
+            <div class="task-top">
+
+                <div>
+                    <h2>My Tasks</h2>
+                    <p>Manage your daily tasks</p>
+                </div>
+
+            </div>
+
+
+            
+
+            <div class="search-box">
+
+                <span>🔍</span>
+
+                <input
+                    type="search"
+                    id="searchInput"
+                    placeholder="Search your tasks..."
+                >
+
+            </div>
+
+
+        
+
+            <div class="filters">
+
+                <button
+                    class="filter-btn active"
+                    data-filter="all"
+                >
+                    All
+                </button>
+
+                <button
+                    class="filter-btn"
+                    data-filter="active"
+                >
+                    Active
+                </button>
+
+                <button
+                    class="filter-btn"
+                    data-filter="completed"
+                >
+                    Completed
+                </button>
+
+            </div>
+
+            <ul id="taskList"></ul>
+
+            <div
+                id="emptyMessage"
+                class="empty-message"
+        </div>
+
+                <div class="empty-icon">
+                    ✓
+                </div>
+
+                <h3>No tasks found</h3>
+
+                <p>
+                    Add a new task to get started.
+                </p>
+
+            </div>
+
+        </section>
+
+    </div>
+
+
+    
+
+    <div id="editModal" class="modal">
+
+        <div class="modal-content">
+
+            <div class="modal-header">
+
+                <div>
+                    <h2>Edit Task</h2>
+                    <p>Update your task details</p>
+                </div>
+
+                <button
+                    id="closeModal"
+                    class="close-btn"
+                >
+                    ×
+                </button>
+
+            </div>
+
+
+            <div class="input-box">
+
+                <label for="editTaskInput">
+                    Task
+                </label>
+
+                <input
+                    type="text"
+                    id="editTaskInput"
+                    maxlength="100"
+                >
+
+            </div>
+
+
+            <div class="edit-grid">
+
+                <div class="input-box">
+
+                    <label for="editTaskDate">
+                        Date
+                    </label>
+
+                    <input
+                        type="date"
+                        id="editTaskDate"
+                    >
+
+                </div>
+
+
+                <div class="input-box">
+
+                    <label for="editTaskTime">
+                        Time
+                    </label>
+
+                    <input
+                        type="time"
+                        id="editTaskTime"
+                    >
+
+                </div>
+
+
+                <div class="input-box">
+
+                    <label for="editTaskPriority">
+                        Priority
+                    </label>
+
+                    <select id="editTaskPriority">
+
+                        <option value="low">
+                            Low
+                        </option>
+
+                        <option value="medium">
+                            Medium
+                        </option>
+
+                        <option value="high">
+                            High
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+                <div class="input-box">
+
+                    <label for="editTaskCategory">
+                        Category
+                    </label>
+
+                    <select id="editTaskCategory">
+
+                        <option value="Study">
+                            📚 Study
+                        </option>
+
+                        <option value="Work">
+                            💼 Work
+                        </option>
+
+                        <option value="Personal">
+                            👤 Personal
+                        </option>
+
+                        <option value="Other">
+                            📌 Other
+                        </option>
+
+                    </select>
+
+                </div>
+
+            </div>
+
+
+            <div class="modal-buttons">
+
+                <button
+                    id="cancelEdit"
+                    class="cancel-btn"
+                >
+                    Cancel
+                </button>
+
+                <button
+                    id="saveEdit"
+                    class="save-btn"
+                >
+                    Save Changes
+                </button>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <script src="script.js"></script>
+
+</body>
+
+</html>
